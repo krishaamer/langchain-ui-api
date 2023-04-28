@@ -1,0 +1,10 @@
+fastapi[all]
+uvicorn[standard]
+gunicorn
+langchain
+openai
+requests
+python-dotenv
+python-decouple
+pydantic
+supabase
