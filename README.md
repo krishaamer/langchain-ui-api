@@ -34,6 +34,10 @@ Generate ads with GPT
    uvicorn main:app --reload
    ```
 
+## Deployment
+
+[![Deploy to DO](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/{REPO-OWNER}/{REPO-NAME}/tree/{BRANCH-NAME})
+
 ## Contributions
 
 Our mission is to make it easy for anyone to create and run LLM apps in the cloud. We are super happy for any contributions you would like to make. Create new features, fix bugs or improve on infra.
