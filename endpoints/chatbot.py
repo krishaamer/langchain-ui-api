@@ -7,7 +7,6 @@ from decouple import config
 from queue import Queue
 
 from langchain.memory import ChatMessageHistory, ConversationBufferMemory
-from langchain.callbacks.base import CallbackManager
 from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
 from langchain.callbacks import get_openai_callback
@@ -57,9 +56,7 @@ async def chatbot(chatbot_id: int, body: Chatbot):
                 streaming=True, 
                 openai_api_key=config("OPENAI_API_KEY"),  
                 verbose=True,
-                callback_manager=CallbackManager(
-                    [StreamingLLMCallbackHandler(on_llm_new_token, on_llm_end)]
-                )
+                callbacks=[StreamingLLMCallbackHandler(on_llm_new_token, on_llm_end)]
             )
             conversation = LLMChain(
                 llm=llm,
