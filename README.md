@@ -1,4 +1,4 @@
-# langchain-ui-backend
+# Langchain UI API
 
 ## Getting started
 
