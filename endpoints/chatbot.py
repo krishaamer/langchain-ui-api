@@ -12,7 +12,6 @@ from langchain.chat_models import ChatOpenAI
 from langchain.callbacks import get_openai_callback
 
 from lib.db import supabase as supabase_client
-from lib.prompts import default_prompt
 from lib.callbacks import StreamingLLMCallbackHandler
 
 
@@ -21,6 +20,8 @@ class Chatbot(BaseModel):
         
         
 router = APIRouter()
+
+
 
 @router.post("/chatbots/{chatbot_id}", name="Chatbot", description="Chatbot endpoint")
 async def chatbot(chatbot_id: int, body: Chatbot):
@@ -51,7 +52,7 @@ async def chatbot(chatbot_id: int, body: Chatbot):
             
     def conversation_run_thread(payload: str) -> None:
         with get_openai_callback() as cb:  
-            memory = ConversationBufferMemory(chat_memory=history, return_messages=True)
+            memory = ConversationBufferMemory(chat_memory=history)
             llm = ChatOpenAI(
                 streaming=True, 
                 openai_api_key=config("OPENAI_API_KEY"),  
@@ -61,10 +62,9 @@ async def chatbot(chatbot_id: int, body: Chatbot):
             conversation = LLMChain(
                 llm=llm,
                 memory=memory,
-                prompt=default_prompt,
                 verbose=True
             )
-            conversation.predict(input=payload)
+            conversation.run(payload)
 
     data_queue = Queue()
     t = threading.Thread(target=conversation_run_thread, args=(payload,))
