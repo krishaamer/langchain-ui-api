@@ -1,5 +1,3 @@
-import os
-
 from decouple import config
 from supabase import create_client, Client
 
