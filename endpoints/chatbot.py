@@ -22,7 +22,6 @@ class Chatbot(BaseModel):
 router = APIRouter()
 
 
-
 @router.post("/chatbots/{chatbot_id}", name="Chatbot", description="Chatbot endpoint")
 async def chatbot(chatbot_id: int, body: Chatbot):
     """Chatbot endpoint"""
