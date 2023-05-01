@@ -2,7 +2,7 @@
 
 ## Getting started
 
-1. Clone the repo into a public GitHub repository (or fork https://github.com/homanp/langchain-ui/fork). If you plan to distribute the code, keep the source code public.
+1. Clone the repo into a public GitHub repository (or fork https://github.com/homanp/langchain-ui-backend/fork). If you plan to distribute the code, keep the source code public.
 
    ```sh
    git clone https://github.com/homanp/langchain-ui-backend.git
