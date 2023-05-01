@@ -12,13 +12,14 @@ Whether you need help with a specific question or just want to have a conversati
 
 Make sure you answer in markdown and include line breaks in the output.
 
-{chat_history}
+History:
+{history}
 
-Human: {human_input}
+Human: {input}
 Assitant answer in Markdown:
 """
 
 default_prompt = PromptTemplate(
-    input_variables=["chat_history", "human_input"],
+    input_variables=["input", "history"],
     template=DEFAULT_PROMPT_TEMPLATE,
 )

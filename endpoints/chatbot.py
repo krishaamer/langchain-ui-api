@@ -25,15 +25,15 @@ router = APIRouter()
 @router.post("/chatbots/{chatbot_id}", name="Chatbot", description="Chatbot endpoint")
 async def chatbot(chatbot_id: int, body: Chatbot):
     """Chatbot endpoint"""
-    message = body.message
+    payload = body.message
     messages = supabase_client.table('ChatbotMessage').select("*").eq(
-            'id', chatbot_id
-        ).execute()
+            'chatbotId', chatbot_id
+        ).order(column="createdAt", desc=True).limit(size=4).execute()
     history = ChatMessageHistory()
-    history = [history.add_ai_message(chat_message["message"])
-            if chat_message["agent"] == "ai"
-            else history.add_user_message(chat_message["message"]) 
-            for chat_message in messages.data]
+    [history.add_ai_message(message["message"])
+     if message["agent"] == "ai" 
+     else history.add_user_message(message["message"]) 
+     for message in messages.data]
     
     def on_llm_new_token(token: str) -> None:
         data_queue.put(token)
@@ -49,9 +49,9 @@ async def chatbot(chatbot_id: int, body: Chatbot):
                 break
             yield f"data: {data}\n\n"
             
-    def conversation_run_thread(message, history):
+    def conversation_run_thread(payload: str) -> None:
         with get_openai_callback() as cb:  
-            memory = ConversationBufferMemory(memory_key="chat_history")
+            memory = ConversationBufferMemory(chat_memory=history, return_messages=True)
             llm = ChatOpenAI(
                 streaming=True, 
                 openai_api_key=config("OPENAI_API_KEY"),  
@@ -64,16 +64,10 @@ async def chatbot(chatbot_id: int, body: Chatbot):
                 prompt=default_prompt,
                 verbose=True
             )
-            conversation.run({
-                "human_input": message, 
-                "chat_history": history
-            })
-    
+            conversation.predict(input=payload)
+
     data_queue = Queue()
-    t = threading.Thread(
-        target=conversation_run_thread, 
-        args=(message, history)
-    )
+    t = threading.Thread(target=conversation_run_thread, args=(payload,))
     t.start()
     response = StreamingResponse(
         event_stream(data_queue), 
