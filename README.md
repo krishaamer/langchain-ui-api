@@ -2,10 +2,10 @@
 
 ## Getting started
 
-1. Clone the repo into a public GitHub repository (or fork https://github.com/homanp/langchain-ui-backend/fork). If you plan to distribute the code, keep the source code public.
+1. Clone the repo into a public GitHub repository (or fork https://github.com/homanp/langchain-ui-api/fork). If you plan to distribute the code, keep the source code public.
 
    ```sh
-   git clone https://github.com/homanp/langchain-ui-backend.git
+   git clone https://github.com/homanp/langchain-ui-api.git
    ```
 
 Generate ads with GPT
@@ -20,7 +20,7 @@ Generate ads with GPT
 1. Install packages with pip
 
    ```sh
-   cd langchain-ui-backend
+   cd langchain-ui-api
    pip install -r requirements.txt
    ```
 
