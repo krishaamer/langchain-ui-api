@@ -1,6 +1,6 @@
 
 spec:
- name: sample-golang
+ name: langchain-ui-api
  services:
  - name: web
    git:
